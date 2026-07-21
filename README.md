@@ -4,7 +4,19 @@ A desktop authenticator. Import everything out of Google Authenticator with one 
 code and get your TOTP codes on the machine you actually work on — fully offline,
 encrypted at rest.
 
+<img src="build/icon.png" width="128" alt="Redstone">
+
 ![Redstone vault](docs/vault.png)
+
+## Download
+
+[**Latest release**](https://github.com/ngocanhnckh/redstone-auth/releases/latest) —
+`-arm64.dmg` for Apple Silicon, the plain `.dmg` for Intel.
+
+The app is unsigned, so the first launch needs **right-click → Open** rather than a
+double-click. If macOS still blocks it:
+`xattr -dr com.apple.quarantine /Applications/Redstone.app`. For something holding
+your 2FA secrets, building from source is the better move if you can.
 
 ## Getting your accounts across
 
