@@ -1,0 +1,29 @@
+appId: com.redstone.authenticator
+productName: Redstone
+directories:
+  output: release
+  buildResources: build
+files:
+  - out/**
+  - package.json
+mac:
+  category: public.app-category.utilities
+  icon: build/icon.png
+  target:
+    - target: dmg
+      arch: [arm64, x64]
+    - target: zip
+      arch: [arm64, x64]
+  darkModeSupport: true
+  # No Apple Developer identity — ship unsigned rather than half-signed, and
+  # tell people how to open it in the release notes.
+  identity: null
+  extendInfo:
+    NSCameraUsageDescription: Redstone uses the camera only to scan authenticator QR codes. Nothing is recorded or sent anywhere.
+win:
+  icon: build/icon.png
+  target: nsis
+linux:
+  icon: build/icon.png
+  target: AppImage
+  category: Utility

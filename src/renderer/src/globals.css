@@ -1,0 +1,319 @@
+@import "tailwindcss";
+
+/* Bundled locally — the app must render identically with no network. */
+@import "@fontsource-variable/fraunces/full.css";
+@import "@fontsource-variable/fraunces/full-italic.css";
+@import "@fontsource-variable/jetbrains-mono/wght.css";
+@import "@fontsource/be-vietnam-pro/300.css";
+@import "@fontsource/be-vietnam-pro/400.css";
+@import "@fontsource/be-vietnam-pro/500.css";
+@import "@fontsource/be-vietnam-pro/600.css";
+
+/* =====================================================================
+   REDSTONE — liquid glass, warm editorial.
+   Palette derives from three RGB triplets. Re-skin by editing them.
+   ===================================================================== */
+
+@theme {
+  --primary: 229 77 46;        /* clay — Radix Tomato 9 */
+  --primary-soft: 240 110 80;  /* lighter tint — hover / glow */
+  --accent: 226 169 91;        /* warm gold — the "expiring" signal */
+
+  --color-clay: rgb(var(--primary));
+  --color-clay-2: rgb(var(--primary-soft));
+  --color-amber: rgb(var(--accent));
+
+  --color-obsidian: #15110D;
+  --color-obsidian-2: #1E1813;
+  --color-coal: #2A2219;
+  --color-ivory: #F0ECE1;
+  --color-slate: #1C1813;
+  --color-bone: #F3EEE3;
+
+  --font-display: "Fraunces Variable", Georgia, serif;
+  --font-body: "Be Vietnam Pro", ui-sans-serif, system-ui;
+  --font-mono: "JetBrains Mono Variable", ui-monospace, monospace;
+
+  --radius-pill: 999px;
+}
+
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+html { -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility; }
+body {
+  margin: 0;
+  background: var(--color-obsidian);
+  color: var(--color-bone);
+  font-family: var(--font-body);
+  overflow: hidden;
+  user-select: none;
+  cursor: default;
+}
+::selection { background: var(--color-clay); color: var(--color-bone); }
+input, textarea { user-select: text; }
+button { font-family: inherit; cursor: default; }
+
+/* ===== grain — analog warmth, hides gradient banding ===== */
+.grain::after {
+  content: ""; position: fixed; inset: 0; z-index: 40; pointer-events: none;
+  opacity: 0.045; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+}
+
+/* ===== display type ===== */
+.display {
+  font-family: var(--font-display);
+  font-optical-sizing: auto;
+  font-weight: 360;
+  letter-spacing: -0.028em;
+  line-height: 0.9;
+}
+.display-italic { font-style: italic; font-variation-settings: "WONK" 1, "SOFT" 4; }
+.kicker {
+  font-family: var(--font-mono);
+  font-size: 0.68rem; letter-spacing: 0.34em; text-transform: uppercase;
+  color: var(--color-clay-2);
+}
+.mono { font-family: var(--font-mono); }
+.index-numeral {
+  font-family: var(--font-mono);
+  font-size: 0.66rem; letter-spacing: 0.18em;
+  color: var(--app-text-faint);
+}
+
+/* ===== atmosphere: drifting mesh blobs — the glass refracts these ===== */
+.blob { position: absolute; border-radius: 999px; filter: blur(80px); mix-blend-mode: screen; will-change: transform; }
+.blob--a {
+  width: 54vw; height: 54vw; left: 38%; top: -18%;
+  background: radial-gradient(circle, rgb(var(--primary-soft) / 0.72), transparent 70%);
+  animation: floatA 22s ease-in-out infinite;
+}
+.blob--b {
+  width: 46vw; height: 46vw; left: 56%; top: 30%;
+  background: radial-gradient(circle, rgb(var(--primary) / 0.62), transparent 70%);
+  animation: floatB 27s ease-in-out infinite;
+}
+.blob--c {
+  width: 38vw; height: 38vw; left: 8%; top: 44%;
+  background: radial-gradient(circle, rgb(var(--accent) / 0.42), transparent 70%);
+  animation: floatC 31s ease-in-out infinite;
+}
+@keyframes floatA { 0%,100% { transform: translate(0,0) scale(1); } 33% { transform: translate(-14vw,9vh) scale(1.16); } 66% { transform: translate(9vw,-8vh) scale(0.92); } }
+@keyframes floatB { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(-17vw,12vh) scale(1.2); } }
+@keyframes floatC { 0%,100% { transform: translate(0,0) scale(1); } 50% { transform: translate(14vw,-13vh) scale(0.86); } }
+
+/* cursor-reactive aura — a clay glow trailing the pointer behind the glass */
+.cursor-aura {
+  position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(
+    420px circle at var(--cursor-x, 50%) var(--cursor-y, 50%),
+    rgb(var(--primary-soft) / 0.30), transparent 68%
+  );
+  transition: opacity .5s ease;
+}
+
+/* thin geometric line-art bleeding off-edge */
+.arc { border: 1px solid rgba(243,238,227,0.10); border-radius: 999px; }
+
+/* =====================================================================
+   SURFACE TOKENS — dark default + light theme
+   ===================================================================== */
+[data-app] {
+  --app-bg: #15110D;
+  --app-panel: #1E1813;
+  --app-elev: #2A2219;
+  --app-border: rgba(243,238,227,0.10);
+  --app-border-strong: rgba(243,238,227,0.20);
+  --app-text: #F0ECE1;
+  --app-text-soft: #A79C8C;
+  --app-text-faint: #6B6052;
+  --app-shadow: 0 30px 80px -40px rgba(0,0,0,0.7);
+  --aura: 0.32;
+  color-scheme: dark;
+}
+[data-app][data-theme="light"] {
+  --app-bg: #EFEADE;
+  --app-panel: #FBF8F1;
+  --app-elev: #FFFFFF;
+  --app-border: rgba(28,24,19,0.12);
+  --app-border-strong: rgba(28,24,19,0.24);
+  --app-text: #211C16;
+  --app-text-soft: #6B6052;
+  --app-text-faint: #9A8E7C;
+  --app-shadow: 0 24px 60px -38px rgba(76,52,34,0.45);
+  --aura: 0.28;
+  color-scheme: light;
+}
+[data-app][data-theme="light"] body,
+body:has([data-theme="light"]) { background: #EFEADE; }
+[data-app][data-theme="light"] .blob { mix-blend-mode: multiply; filter: blur(90px); opacity: 0.5; }
+[data-app][data-theme="light"] .arc { border-color: rgba(28,24,19,0.12); }
+
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { scrollbar-width: none; }
+
+/* =====================================================================
+   LIQUID GLASS — heavy frost + vibrancy + specular edge.
+   Never nest backdrop-filter: panels frost, children use .glass-inset.
+   ===================================================================== */
+.glass-surface {
+  background: color-mix(in srgb, var(--app-panel) 42%, transparent);
+  -webkit-backdrop-filter: blur(34px) saturate(190%);
+  backdrop-filter: blur(34px) saturate(190%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.15), inset 0 0 0 1px rgb(255 255 255 / 0.03);
+}
+.glass-surface-soft {
+  background: color-mix(in srgb, var(--app-panel) 46%, transparent);
+  -webkit-backdrop-filter: blur(44px) saturate(200%);
+  backdrop-filter: blur(44px) saturate(200%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), inset 0 -10px 28px rgb(0 0 0 / 0.06), 0 20px 55px -20px rgb(0 0 0 / 0.55);
+}
+[data-app][data-theme="light"] .glass-surface {
+  background: color-mix(in srgb, var(--app-panel) 30%, transparent);
+  -webkit-backdrop-filter: blur(30px) saturate(210%);
+  backdrop-filter: blur(30px) saturate(210%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.55), inset 0 0 0 1px rgb(255 255 255 / 0.25);
+}
+[data-app][data-theme="light"] .glass-surface-soft {
+  background: color-mix(in srgb, var(--app-panel) 34%, transparent);
+  -webkit-backdrop-filter: blur(40px) saturate(220%);
+  backdrop-filter: blur(40px) saturate(220%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.6), 0 20px 55px -20px rgba(76,52,34,0.3);
+}
+
+/* near-opaque material for popovers over busy content */
+.glass-menu {
+  background: color-mix(in srgb, var(--app-panel) 94%, transparent);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.14), var(--app-shadow);
+}
+
+/* tiles INSIDE a glass panel — tint + sheen, no filter of their own */
+.glass-inset {
+  background: color-mix(in srgb, var(--app-elev) 55%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.10);
+}
+.glass-inset-hover { transition: background-color .22s ease, box-shadow .22s ease, transform .22s cubic-bezier(0.22,1,0.36,1); }
+.glass-inset-hover:hover {
+  background: color-mix(in srgb, var(--app-elev) 70%, transparent);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.20), inset 0 0 0 1px rgb(255 255 255 / 0.06);
+}
+
+/* ===== glass buttons ===== */
+.glass-btn {
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--app-elev) 55%, transparent);
+  border: 1px solid var(--app-border);
+  color: var(--app-text);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.16);
+  transition: background-color .25s ease, border-color .25s ease, transform .25s cubic-bezier(0.22,1,0.36,1);
+}
+.glass-btn:hover:not(:disabled) {
+  background: color-mix(in srgb, var(--app-elev) 78%, transparent);
+  border-color: var(--app-border-strong);
+  transform: translateY(-1px);
+}
+.glass-btn:disabled { opacity: 0.45; }
+.glass-btn--clay {
+  background: rgb(var(--primary) / 0.32);
+  border-color: rgb(var(--primary-soft) / 0.5);
+  color: var(--color-bone);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.25), 0 12px 32px -14px rgb(var(--primary) / 0.65);
+}
+.glass-btn--clay:hover:not(:disabled) {
+  background: rgb(var(--primary-soft) / 0.46);
+  border-color: rgb(var(--accent) / 0.7);
+}
+
+/* ===== inputs ===== */
+.field {
+  width: 100%;
+  background: color-mix(in srgb, var(--app-elev) 50%, transparent);
+  border: 1px solid var(--app-border);
+  border-radius: 14px;
+  color: var(--app-text);
+  padding: 0.9rem 1.05rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color .25s ease, box-shadow .25s ease, background-color .25s ease;
+}
+.field::placeholder { color: var(--app-text-faint); }
+.field:focus {
+  border-color: rgb(var(--primary-soft) / 0.65);
+  box-shadow: 0 0 0 4px rgb(var(--primary) / 0.14);
+}
+.field--mono { font-family: var(--font-mono); letter-spacing: 0.06em; }
+
+/* =====================================================================
+   THE SIGNATURE: the 30-second rollover
+   Codes are masked columns that wipe upward when the period turns over.
+   ===================================================================== */
+.code {
+  font-family: var(--font-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: 0.08em;
+  transition: color .6s ease;
+}
+.code--expiring { color: var(--color-amber); }
+
+.wipe-mask { display: block; overflow: hidden; }
+
+/* The drain: the tile's own aura recedes as the period runs out, with a
+   defined bar along the bottom edge so the countdown is legible, not just felt. */
+.drain {
+  position: absolute; inset: 0; pointer-events: none; border-radius: inherit;
+  background: linear-gradient(105deg, rgb(var(--primary) / 0.26), rgb(var(--primary) / 0.02) 70%);
+  transform-origin: left center;
+  transition: transform 0.25s linear, opacity .5s ease;
+}
+.drain--expiring { background: linear-gradient(105deg, rgb(var(--accent) / 0.34), rgb(var(--accent) / 0.03) 70%); }
+
+.drain-bar {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 2px;
+  pointer-events: none; transform-origin: left center;
+  background: linear-gradient(90deg, rgb(var(--primary-soft)), rgb(var(--primary) / 0.55));
+  box-shadow: 0 0 14px rgb(var(--primary) / 0.55);
+  transition: transform 0.25s linear, background .5s ease, box-shadow .5s ease;
+}
+.drain-bar--expiring {
+  background: linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent) / 0.5));
+  box-shadow: 0 0 16px rgb(var(--accent) / 0.6);
+}
+
+/* click-to-copy: a clay flash sweeps through the tile */
+@keyframes copyFlash {
+  0% { opacity: 0; transform: translateX(-100%); }
+  35% { opacity: 1; }
+  100% { opacity: 0; transform: translateX(100%); }
+}
+.copy-flash {
+  position: absolute; inset: 0; border-radius: inherit; pointer-events: none;
+  background: linear-gradient(100deg, transparent, rgb(var(--primary-soft) / 0.45), transparent);
+  animation: copyFlash .8s cubic-bezier(0.22,1,0.36,1);
+}
+
+/* drag-and-drop: the whole window becomes the target */
+.drop-veil {
+  position: fixed; inset: 0; z-index: 60;
+  background: rgb(var(--primary) / 0.10);
+  -webkit-backdrop-filter: blur(10px) saturate(180%);
+  backdrop-filter: blur(10px) saturate(180%);
+  border: 2px dashed rgb(var(--primary-soft) / 0.7);
+}
+
+/* the draggable window chrome strip (macOS traffic lights live here) */
+.titlebar-drag { -webkit-app-region: drag; }
+.titlebar-drag button, .no-drag { -webkit-app-region: no-drag; }
+
+@media (prefers-reduced-motion: reduce) {
+  .blob { animation: none !important; }
+  .cursor-aura { display: none; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
