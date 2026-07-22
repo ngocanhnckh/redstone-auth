@@ -1,21 +1,21 @@
-# Redstone
+# Redstone Auth
 
 A desktop authenticator. Import everything out of Google Authenticator with one QR
 code and get your TOTP codes on the machine you actually work on — fully offline,
 encrypted at rest.
 
-<img src="build/icon.png" width="128" alt="Redstone">
+<img src="build/icon.png" width="128" alt="Redstone Auth">
 
-![Redstone vault](docs/vault.png)
+![Redstone Auth vault](docs/vault.png)
 
 ## Download
 
 [**Latest release**](https://github.com/ngocanhnckh/redstone-auth/releases/latest) —
-`-arm64.dmg` for Apple Silicon, the plain `.dmg` for Intel.
+`redstone-auth-1.0.0-arm64.dmg` for Apple Silicon, `-x64.dmg` for Intel.
 
 The app is unsigned, so the first launch needs **right-click → Open** rather than a
 double-click. If macOS still blocks it:
-`xattr -dr com.apple.quarantine /Applications/Redstone.app`. For something holding
+`xattr -dr com.apple.quarantine /Applications/Redstone\ Auth.app`. For something holding
 your 2FA secrets, building from source is the better move if you can.
 
 ## Getting your accounts across
@@ -24,7 +24,7 @@ On your phone: **Google Authenticator → Menu → Transfer accounts → Export 
 pick the accounts, and it shows you a QR code (several, if you have a lot — import
 each one).
 
-Then, in Redstone, any of:
+Then, in Redstone Auth, any of:
 
 - **Drag the screenshot onto the window.** The whole window is the drop target.
 - **⌘V** a screenshot from the clipboard in the import panel.

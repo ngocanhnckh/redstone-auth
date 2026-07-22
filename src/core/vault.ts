@@ -137,7 +137,7 @@ function assertVaultShape(file: VaultFile): void {
   if (file.v > VAULT_VERSION) {
     throw new AppError(
       'VAULT_CORRUPT',
-      `This vault was written by a newer version of Redstone (v${file.v}).`
+      `This vault was written by a newer version of Redstone Auth (v${file.v}).`
     )
   }
   // Reject absurd KDF parameters so a doctored header can't hang the app.

@@ -1,5 +1,6 @@
 appId: com.redstone.authenticator
-productName: Redstone
+productName: Redstone Auth
+artifactName: redstone-auth-${version}-${arch}.${ext}
 directories:
   output: release
   buildResources: build
@@ -19,7 +20,7 @@ mac:
   # tell people how to open it in the release notes.
   identity: null
   extendInfo:
-    NSCameraUsageDescription: Redstone uses the camera only to scan authenticator QR codes. Nothing is recorded or sent anywhere.
+    NSCameraUsageDescription: Redstone Auth uses the camera only to scan authenticator QR codes. Nothing is recorded or sent anywhere.
 win:
   icon: build/icon.png
   target: nsis

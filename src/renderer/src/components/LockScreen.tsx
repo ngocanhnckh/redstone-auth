@@ -64,7 +64,7 @@ export function LockScreen({ isFirstRun, onUnlocked }: Props): React.JSX.Element
               className="display-italic block"
               style={{ color: 'var(--color-clay-2)' }}
             >
-              authenticator
+              auth.
             </motion.span>
           </span>
         </h1>
